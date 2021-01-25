@@ -4,6 +4,7 @@ echo "Creating on boot script on device"
 echo '#!/bin/sh
 
 EXECUTE01="/mnt/data/scripts/ipt-enable-logs-launch.sh"
+EXECUTE02="/mnt/data/scripts/add_if_suricata.sh wg0"
 FILE="/mnt/data/udapi-config/ubios-udapi-server/ubios-udapi-server.state"
 ### daemonized section ######
 LAST=`ls -l "$FILE"`
@@ -11,9 +12,10 @@ while true; do
     sleep 1
     NEW=`ls -l "$FILE"`
     if [ "$NEW" != "$LAST" ]; then
-    DATE=`date`
+    # DATE=`date`
     # echo "${DATE}: Executing ${EXECUTE01}"
     $EXECUTE01
+    $EXECUTE02
     LAST="$NEW"
     fi
 done
