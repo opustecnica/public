@@ -20,9 +20,13 @@ do
 done
 
 # Add wg0 interface
-# sed -i -E "s/(.*)(br0)$/\1wg0/" /run/ips/config/iface.yaml
-echo "   - interface: wg0" >> /run/ips/config/iface.yaml
-#
+grep -q 'wg0' /run/ips/config/iface.yaml
+if [ $? -ne 0 ]; then
+  # sed -i -E "s/(.*)(br0)$/\1wg0/" /run/ips/config/iface.yaml
+  echo "   - interface: wg0" >> /run/ips/config/iface.yaml 
+  #
+fi
+
 /tmp/suricata.backup "$@"
 EOF
 
