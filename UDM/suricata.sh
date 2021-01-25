@@ -23,6 +23,12 @@ CONTAINER=suricata
 if podman container exists ${CONTAINER}; then
   podman rm -f ${CONTAINER}
 fi
+
+# Add wg0 interface
+# sed -i -E "s/(.*)(br0)$/\1wg0/" /run/ips/config/iface.yaml
+echo "   - interface: wg0" >> /run/ips/config/iface.yaml
+#
+
 podman run --network=host --privileged --name ${CONTAINER} --rm -it -v /run:/var/run/ -v /run:/run  -v /usr/share/ubios-udapi-server/ips/:/usr/share/ubios-udapi-server/ips/ jasonish/suricata:5.0.3-arm64v8 /usr/bin/suricata "$@"
 
 EOF
